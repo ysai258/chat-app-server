@@ -1,0 +1,17 @@
+version: "3"
+services:
+  server:
+    image: banter-box-chat-go-server
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+  db:
+    image: banter-box-chat-db
+    ports:
+      - "3306:3306"
+    environment:  
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: chat      
+      MYSQL_USER=user
+      MYSQL_PASSWORD=password

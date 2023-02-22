@@ -1,0 +1,9 @@
+{
+    "MYSQL_DATABASE": "chat",
+    "MYSQL_USER": "user",
+    "MYSQL_PASSWORD": "password",
+    "MYSQL_SERVER":"localhost", 
+    "MYSQL_PORT":"3306",
+    "JWT_SECRET":"secret"
+  }
+  
