@@ -95,7 +95,7 @@ func (s *service) Login(ctx context.Context, req *LoginRequest) (*LoginResponse,
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, constants.TokenClaims{
-		ID:       strconv.Itoa(int(user.ID)),
+		ID:       user.ID,
 		Username: user.Username,
 		RegisteredClaims: jwt.RegisteredClaims{
 			Issuer:    strconv.Itoa(int(user.ID)),
@@ -112,4 +112,12 @@ func (s *service) Login(ctx context.Context, req *LoginRequest) (*LoginResponse,
 	res.Username = user.Username
 	res.accessToken = signedTokem
 	return res, nil
+}
+
+func (s *service) GetUser(ctx context.Context, id int64) (*CreateUserResponse, error) {
+	user, err := s.Repository.GetUserById(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+	return &CreateUserResponse{ID: strconv.Itoa(int(user.ID)), Email: user.Email, Username: user.Username}, nil
 }

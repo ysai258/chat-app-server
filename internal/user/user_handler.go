@@ -98,3 +98,19 @@ func (h *Handler) Logout(c *gin.Context) {
 	c.SetCookie(constants.JWT_TOKEN_NAME, "", -1, "", "", false, true)
 	c.JSON(http.StatusOK, gin.H{"message": "logout successful"})
 }
+
+func (h *Handler) GetUser(c *gin.Context) {
+	ctx, cancel := context.WithTimeout(c.Request.Context(), h.timeout)
+	defer cancel()
+	tokenData := utils.GetTokenData(c)
+	if tokenData == nil {
+		return
+	}
+
+	user, err := h.Service.GetUser(ctx, tokenData.ID)
+	if err != nil {
+		utils.ServerError(c, err)
+		return
+	}
+	c.JSON(http.StatusOK, user)
+}

@@ -3,7 +3,7 @@ package constants
 import "github.com/golang-jwt/jwt/v4"
 
 const REQUEST_TIMEOUT_SECONDS = 2
-const TOKEN_EXPIRY_HOURS = 24
+const TOKEN_EXPIRY_HOURS = 7 * 24
 const TOKEN_MAX_AGE_SECONDS = 7 * 24 * 60 * 60 // 1 week
 
 const ROUTER_MAX_AGE_HOURS = 12
@@ -23,7 +23,7 @@ const BASE_CLIENT_PORT = "3000"
 const BASE_CLIENT_URL = BASE_CLIENT_DOMAIN + ":" + BASE_CLIENT_PORT
 
 type TokenClaims struct {
-	ID       string `json:"id"`
+	ID       int64  `json:"id"`
 	Username string `json:"username"`
 	jwt.RegisteredClaims
 }

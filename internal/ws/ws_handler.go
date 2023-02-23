@@ -3,8 +3,8 @@ package ws
 import (
 	"fmt"
 	"net/http"
-	"server/internal/constants"
 	"server/utils"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
@@ -58,14 +58,11 @@ func (h *Handler) JoinRoom(c *gin.Context) {
 	}
 
 	roomId := c.Param("roomId")
-	tkn, ok := c.Get(constants.JWT_TOKEN_CLAIMS_KEY)
-	if !ok {
-		utils.ServerError(c, fmt.Errorf("invalid token"))
+	tokenData := utils.GetTokenData(c)
+	if tokenData == nil {
 		return
 	}
-	tokenData := tkn.(*constants.TokenClaims)
-
-	clientID := tokenData.ID
+	clientID := strconv.Itoa(int(tokenData.ID))
 	username := tokenData.Username
 
 	cli := &Client{

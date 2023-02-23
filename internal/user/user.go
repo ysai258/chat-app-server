@@ -35,6 +35,7 @@ type LoginResponse struct {
 type Repository interface {
 	CreateUser(ctx context.Context, user *User) (*User, error)
 	GetUserByEmail(ctx context.Context, email string) (*User, error)
+	GetUserById(ctx context.Context, id int64) (*User, error)
 	EmailExist(ctx context.Context, email string) (bool, error)
 	UserNameExist(ctx context.Context, userName string) (bool, error)
 }
@@ -44,4 +45,5 @@ type Service interface {
 	Login(ctx context.Context, req *LoginRequest) (*LoginResponse, error)
 	CheckUserName(ctx context.Context, userName string) (bool, error)
 	CheckEmail(ctx context.Context, email string) (bool, error)
+	GetUser(ctx context.Context, id int64) (*CreateUserResponse, error)
 }

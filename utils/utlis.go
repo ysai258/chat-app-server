@@ -3,6 +3,7 @@ package utils
 import (
 	"fmt"
 	"net/http"
+	"server/internal/constants"
 
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
@@ -26,4 +27,14 @@ func BadRequest(c *gin.Context, err error) {
 
 func ServerError(c *gin.Context, err error) {
 	c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+}
+
+func GetTokenData(c *gin.Context) *constants.TokenClaims {
+	tkn, ok := c.Get(constants.JWT_TOKEN_CLAIMS_KEY)
+	if !ok {
+		ServerError(c, fmt.Errorf("invalid token"))
+		return nil
+	}
+	tokenData := tkn.(*constants.TokenClaims)
+	return tokenData
 }
